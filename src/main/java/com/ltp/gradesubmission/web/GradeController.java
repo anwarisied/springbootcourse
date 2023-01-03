@@ -6,7 +6,6 @@ import com.ltp.gradesubmission.service.GradeService;
 
 import lombok.AllArgsConstructor;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -37,28 +36,29 @@ public class GradeController {
         return new ResponseEntity<>(gradeService.saveGrade(grade, studentId, courseId), HttpStatus.CREATED);
     }
 
-    @PutMapping("/grade/student/{studentId}/course/{courseId}")
+    @PutMapping("/student/{studentId}/course/{courseId}")
     public ResponseEntity<Grade> updateGrade(@RequestBody Grade grade, @PathVariable Long studentId,
             @PathVariable Long courseId) {
         return new ResponseEntity<Grade>(grade, HttpStatus.OK);
     }
 
-    @DeleteMapping("/grade/student/{studentId}/course/{courseId}")
-    public ResponseEntity<HttpStatus> deleteGrade() {
+    @DeleteMapping("/student/{studentId}/course/{courseId}")
+    public ResponseEntity<HttpStatus> deleteGrade(@PathVariable Long studentId, @PathVariable Long courseId) {
+        gradeService.deleteGrade(studentId, courseId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping("/grade/student/{studentId}")
+    @GetMapping("/student/{studentId}")
     public ResponseEntity<List<Grade>> getStudentGrades(@PathVariable Long studentId) {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/grade/student/{courseId}")
+    @GetMapping("/student/{courseId}")
     public ResponseEntity<List<Grade>> getCourseGrades(@PathVariable Long courseId) {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/grade/all")
+    @GetMapping("/all")
     public ResponseEntity<List<Grade>> getGrades(@PathVariable Long studentId) {
         return new ResponseEntity<>(HttpStatus.OK);
     }
