@@ -1,7 +1,5 @@
 package com.ltp.gradesubmission.web;
 
-import java.util.List;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,16 +9,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
+import java.util.List;
 import com.ltp.gradesubmission.entity.Course;
-import com.ltp.gradesubmission.repository.CourseRepository;
 import com.ltp.gradesubmission.service.CourseService;
 
 import lombok.AllArgsConstructor;
 
+import javax.validation.Valid;
+
+@AllArgsConstructor
 @RestController
 @RequestMapping("/course")
-@AllArgsConstructor
 public class CourseController {
 
     CourseService courseService;
@@ -31,7 +30,7 @@ public class CourseController {
     }
 
     @PostMapping
-    public ResponseEntity<Course> saveCourse(@RequestBody Course course) {
+    public ResponseEntity<Course> saveCourse(@Valid @RequestBody Course course) {
         return new ResponseEntity<>(courseService.saveCourse(course), HttpStatus.CREATED);
     }
 

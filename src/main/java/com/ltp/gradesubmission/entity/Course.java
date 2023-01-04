@@ -1,33 +1,44 @@
 package com.ltp.gradesubmission.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import java.util.List;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import lombok.*;
 
 @Getter
 @Setter
 @RequiredArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "Course")
+@Table(name = "course")
 public class Course {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+
+    @NonNull
     @Column(name = "subject", nullable = false)
-    @NonNull
+    @NotBlank(message = "Subject cannot be blank")
     private String subject;
+
     @NonNull
-    @Column(name = "code", nullable = false)
+    @NotBlank(message = "Course code cannot be blank")
+    @Column(name = "code", nullable = false, unique = true)
     private String code;
+
     @NonNull
-    @Column(name = "description")
+    @NotBlank(message = "Description cannot be blank")
+    @Column(name = "description", nullable = false)
     private String description;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    private List<Grade> grades;
 
 }

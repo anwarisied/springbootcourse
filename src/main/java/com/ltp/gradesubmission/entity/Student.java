@@ -1,7 +1,5 @@
 package com.ltp.gradesubmission.entity;
 
-import lombok.*;
-
 import java.time.LocalDate;
 import java.util.List;
 
@@ -13,31 +11,38 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Past;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-@Entity
+import lombok.*;
+
 @Getter
 @Setter
 @RequiredArgsConstructor
 @NoArgsConstructor
+@Entity
 @Table(name = "student")
 public class Student {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
     @NonNull
+    @NotBlank(message = "Name cannot be blank")
     @Column(name = "name", nullable = false)
     private String name;
 
+    @Past(message = "The birth date must be in the past")
     @NonNull
     @Column(name = "birth_date", nullable = false)
     private LocalDate birthDate;
 
     @JsonIgnore
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
-    List<Grade> grades;
-
+    private List<Grade> grades;
+    
 }

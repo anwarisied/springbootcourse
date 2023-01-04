@@ -11,10 +11,10 @@ import com.ltp.gradesubmission.repository.StudentRepository;
 
 import lombok.AllArgsConstructor;
 
-@Service
 @AllArgsConstructor
-
+@Service
 public class StudentServiceImpl implements StudentService {
+
 
     StudentRepository studentRepository;
 
@@ -34,13 +34,14 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public void deleteStudent(Long id) {
-        studentRepository.deleteById(id);
+    public void deleteStudent(Long id) {      
+        studentRepository.deleteById(id);  
     }
 
     @Override
     public List<Student> getStudents() {
-        return (List<Student>) studentRepository.findAll();
+        return (List<Student>)studentRepository.findAll();
     }
+
 
 }
