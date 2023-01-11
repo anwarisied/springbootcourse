@@ -8,7 +8,6 @@ import javax.validation.constraints.NotBlank;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.*;
-
 @Getter
 @Setter
 @RequiredArgsConstructor
@@ -19,26 +18,31 @@ public class Course {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
 
+    @NotBlank(message = "Subject cannot be blank")
     @NonNull
     @Column(name = "subject", nullable = false)
-    @NotBlank(message = "Subject cannot be blank")
     private String subject;
 
-    @NonNull
     @NotBlank(message = "Course code cannot be blank")
+    @NonNull
     @Column(name = "code", nullable = false, unique = true)
     private String code;
 
-    @NonNull
     @NotBlank(message = "Description cannot be blank")
+    @NonNull
     @Column(name = "description", nullable = false)
     private String description;
 
     @JsonIgnore
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<Grade> grades;
+
+    @ManyToMany
+    @JoinTable(name = "course_student",
+            joinColumns = @JoinColumn(name = "course_id"),
+            inverseJoinColumns = @JoinColumn(name = "student_id"))
+    private List<Student> students;
 
 }
